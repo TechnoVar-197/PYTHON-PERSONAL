@@ -1,0 +1,60 @@
+create database project;
+
+use project;
+
+CREATE TABLE `user` (
+  `user_id` varchar(10) NOT NULL,
+  `Password` varchar(200) NOT NULL,
+  `Type` varchar(30) DEFAULT 'client',
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `Password_UNIQUE` (`Password`))
+
+
+  CREATE TABLE `client` (
+  `client_id` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(30) DEFAULT NULL,
+  `Phone_No` int NOT NULL,
+  `Address` varchar(100) DEFAULT NULL,
+  `user_Id` varchar(10) NOT NULL,
+  PRIMARY KEY (`Phone_No`),
+  UNIQUE KEY `user_Id_UNIQUE` (`user_Id`),
+  UNIQUE KEY `client_id_UNIQUE` (`client_id`))
+
+CREATE TABLE `booking` (
+  `Booking_ID` int NOT NULL AUTO_INCREMENT,
+  `Phone_No` int DEFAULT NULL,
+  `Destination` varchar(40) DEFAULT NULL,
+  `Mode_of_travel` varchar(30) DEFAULT 'flight',
+  `status` varchar(20) DEFAULT 'pending',
+  PRIMARY KEY (`Booking_ID`),
+  KEY `Phone_No` (`Phone_No`),
+  CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`Phone_No`) REFERENCES `client` (`Phone_No`))
+
+
+
+
+
+CREATE TABLE `destination` (
+  `Booking_ID` int DEFAULT NULL,
+  `hotel` varchar(30) DEFAULT NULL,
+  `duration` varchar(20) DEFAULT NULL,
+  `Pay` int DEFAULT '10000',
+  KEY `Booking_ID` (`Booking_ID`),CONSTRAINT `destination_ibfk_1` FOREIGN KEY (`Booking_ID`) REFERENCES `booking` (`Booking_ID`))
+
+
+CREATE TABLE `payment` (
+  `Booking_Id` int DEFAULT NULL,
+  `payment` int DEFAULT NULL,
+  `tax` decimal(5,2) DEFAULT '0.18',
+  `discount` decimal(5,2) DEFAULT '0.10',
+  KEY `Booking_Id` (`Booking_Id`),
+  CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`Booking_Id`) REFERENCES `booking` (`Booking_ID`))
+
+insert into user values('a1654','password','admin')
+insert into user values('c16556','passwrd','client')
+insert into client values(1864466510,'Amit',971750192,'103g sector 17 faidabad','c16556')
+insert into booking values(1764466510,971750192,'hyderabad','flight','confirmed')
+insert into destination values(1764466510,'taj','3days',18954)
+insert into payment values(1764466510,18954,0.18,0.10)
+
+
